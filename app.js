@@ -1,7 +1,30 @@
 // BUDGET CONTROLLER
 var budgetController = (function() {
+    // FUNCTION CONSTRUCTOR das despesas
+    var Expanse = function(id, description, value) {
+        this.id             = id;
+        this.description    = description;
+        this.value          = value;
+    };
 
-    // some codes
+    var Income = function(id, description, value) {
+        this.id             = id;
+        this.description	= description;
+        this.value	        = value;
+    };
+
+    // DADOS UI
+    var data = {
+        // Objetvo que armazena os dados de cada item na tela da UI
+        allItems: {
+            exp: [],
+            inc: [],
+        },
+        totals: {
+            exp: 0,
+            inc: 0,
+        }
+    }
 
 })();
 
@@ -10,19 +33,19 @@ var UIController = (function() {
 
     // Objeto que recebe valores do DOM
     var DOMStrings = {
-        inputType: '.add__type',
-        inputDescription: '.add__description',
-        inputValue: '.add__value',
-        inputBtn: '.add__btn',
+        inputType:          '.add__type',
+        inputDescription:   '.add__description',
+        inputValue:         '.add__value',
+        inputBtn:           '.add__btn',
     }
 
     return {
         //Função que retorna o valor dos inputs em um objeto
         getInput: function() {
             return {
-                type: document.querySelector(DOMStrings.inputType).value, // Will be either inc or exp
-                description: document.querySelector(DOMStrings.inputDescription).value,
-                value: document.querySelector(DOMStrings.inputValue).value,
+            type:           document.querySelector(DOMStrings.inputType).value, // Will be either inc or exp
+            description:    document.querySelector(DOMStrings.inputDescription).value,
+            value:          document.querySelector(DOMStrings.inputValue).value,
             }   
         },
 
@@ -30,7 +53,6 @@ var UIController = (function() {
         getDOMStrings: function () {
             return DOMStrings;
         }
-
     };
 
 })();
