@@ -38,14 +38,27 @@ var UIController = (function() {
 // GLOBAL APP CONTROLLER
 var controller = (function(budgetCtrl, UICtrl) {
 
-    // passa a ter acesso ao DOMStrings.
-    var DOM = UIController.getDOMStrings();
+    var setupEventListeners = function() {
+        // passa a ter acesso ao DOMStrings.
+        var DOM = UIController.getDOMStrings();
+
+        // BOTÃO ADD
+        document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
+
+        // O evento keypress não acontece em elementos específicos, mas acontece na página da web global.
+        // Starta o evento quando a tecla ENTER é acionada
+        document.addEventListener('keypress', function(event) {
+            if (event.keyCode === 13 || event.which === 13) {
+                ctrlAddItem();
+            }
+        });
+    };
 
     // Adiciona Item
     var ctrlAddItem = function() {
         // 1. Get the field input data
         var input = UIController.getInput();
-        console.log(input);
+        
         // 2. Add the item to the budget controller
 
         // 3. Add the item to the UI
@@ -55,18 +68,15 @@ var controller = (function(budgetCtrl, UICtrl) {
         // 5. Display the budget on the UI
     }
 
-    // BOTÃO ADD
-    document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
-
-    // O evento keypress não acontece em elementos específicos, mas acontece na página da web global.
-    // Starta o evento quando a tecla ENTER é acionada
-    document.addEventListener('keypress', function(event) {
-        if (event.keyCode === 13 || event.which === 13) {
-            ctrlAddItem();
+    return {
+        init: function() {
+            setupEventListeners();
         }
-    })
+    };
     
 })(budgetController, UIController);
+
+controller.init();
 
 
 
