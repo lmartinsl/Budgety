@@ -1,97 +1,133 @@
 // BUDGET CONTROLLER
 var budgetController = (function() {
-    // FUNCTION CONSTRUCTOR das despesas
-    var Expanse = function(id, description, value) {
-        this.id             = id;
-        this.description    = description;
-        this.value          = value;
+    
+    var Expense = function(id, description, value) {
+        this.id = id;
+        this.description = description;
+        this.value = value;
     };
-
+    
     var Income = function(id, description, value) {
-        this.id             = id;
-        this.description	= description;
-        this.value	        = value;
-    };
-
-    // DADOS UI
+        this.id = id;
+        this.description = description;
+        this.value = value;
+    };    
+    
     var data = {
-        // Objetvo que armazena os dados de cada item na tela da UI
         allItems: {
             exp: [],
-            inc: [],
+            inc: []
         },
         totals: {
             exp: 0,
-            inc: 0,
-        }
-    }
+            inc: 0
+        },
+    };
+    
+    return {
+        addItem: function(type, des, val) {
+            var newItem, ID;
+            
+            //[1 2 3 4 5], next ID = 6
+            //[1 2 4 6 8], next ID = 9
+            // ID = last ID + 1
 
+            // Create new ID
+            if (data.allItems[type].length > 0) {
+                ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
+            } else {
+                ID = 0;
+            }
+
+            // Create new item based on 'inc' or 'exp' type
+            if (type === 'exp') {
+                newItem = new Expense(ID, des, val);
+            } else if (type === 'inc') {
+                newItem = new Income(ID, des, val);
+            }
+            
+            // Push it into our data structure
+            data.allItems[type].push(newItem);
+            
+            // Return the new element
+            return newItem;
+        },    
+        
+        getData: function() {
+            return data;
+        }
+               
+    };
+    
 })();
 
 // UI CONTROLLER
 var UIController = (function() {
-
-    // Objeto que recebe valores do DOM
-    var DOMStrings = {
-        inputType:          '.add__type',
-        inputDescription:   '.add__description',
-        inputValue:         '.add__value',
-        inputBtn:           '.add__btn',
-    }
-
+    
+    var DOMstrings = {
+        inputType: '.add__type',
+        inputDescription: '.add__description',
+        inputValue: '.add__value',
+        inputBtn: '.add__btn',
+    };        
+    
     return {
-        //Função que retorna o valor dos inputs em um objeto
         getInput: function() {
             return {
-            type:           document.querySelector(DOMStrings.inputType).value, // Will be either inc or exp
-            description:    document.querySelector(DOMStrings.inputDescription).value,
-            value:          document.querySelector(DOMStrings.inputValue).value,
-            }   
-        },
-
-        // expõe o DOMStrings ao público
-        getDOMStrings: function () {
-            return DOMStrings;
+                type: document.querySelector(DOMstrings.inputType).value, // Will be either inc or exp
+                description: document.querySelector(DOMstrings.inputDescription).value,
+                value: (document.querySelector(DOMstrings.inputValue).value)
+            };
+        },      
+                
+        getDOMstrings: function() {
+            return DOMstrings;
         }
     };
-
+    
 })();
 
 // GLOBAL APP CONTROLLER
 var controller = (function(budgetCtrl, UICtrl) {
-
+    
     var setupEventListeners = function() {
-        // passa a ter acesso ao DOMStrings.
-        var DOM = UIController.getDOMStrings();
-
-        // BOTÃO ADD
+        var DOM = UICtrl.getDOMstrings();
+        
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
 
-        // O evento keypress não acontece em elementos específicos, mas acontece na página da web global.
-        // Starta o evento quando a tecla ENTER é acionada
         document.addEventListener('keypress', function(event) {
             if (event.keyCode === 13 || event.which === 13) {
                 ctrlAddItem();
             }
-        });
-    };
-
-    // Adiciona Item
+        });     
+    };    
+    
     var ctrlAddItem = function() {
+        var input, newItem;
+        
         // 1. Get the field input data
-        var input = UIController.getInput();
+        input = UICtrl.getInput();        
         
         // 2. Add the item to the budget controller
+        newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+        // Verificate dados object
+        var getInputs = UIController.getDOMstrings(); // Pega os campos
+        var viewData = budgetController.getData(); // Pega os dados armazenados no objetos pelo UI
+        var getData = document.querySelector(getInputs.inputType).value; // pega a string do campo 'add__type'
+        console.log(viewData.allItems[getData]); // viwe  de array into 'exp' or 'inc'
 
         // 3. Add the item to the UI
 
-        // 4. Calculate the budget
+        // 4. Clear the fields
 
-        // 5. Display the budget on the UI
-    }
-
+        // 5. Calculate and update budget
+        
+        // 6. Calculate and update percentages
+    };   
+    
     return {
         init: function() {
+            console.log('Application has started.');
             setupEventListeners();
         }
     };
@@ -99,28 +135,3 @@ var controller = (function(budgetCtrl, UICtrl) {
 })(budgetController, UIController);
 
 controller.init();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
