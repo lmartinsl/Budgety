@@ -108,8 +108,23 @@ var UIController = (function() {
             // DOM into html with income__container or expenses__container
                                                               //posição   //texto
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
-
         },
+
+        clearFields: function() {
+            var fields, fieldsArr;
+
+            fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue);
+
+            // converte o fields para uma arrey
+            fieldsArr = Array.prototype.slice.call(fields);
+
+            fieldsArr.forEach(function(current, index, array) {
+                current.value = "";
+            });
+
+            fieldsArr[0].focus();
+        },
+
         getDOMstrings: function() { // Expõe o DOMstrings para funções externas 
             return DOMstrings;
         }
@@ -149,12 +164,15 @@ var controller = (function(budgetCtrl, UICtrl) {
 
         // 3. Add the item to the UI
         UICtrl.addListItem(newItem, input.type);
-
-        // 4. Clear the fields
-
-        // 5. Calculate and update budget
         
-        // 6. Calculate and update percentages
+        // 4. Clear de Fields
+        UICtrl.clearFields();
+
+        // 5. Clear the fields
+
+        // 6. Calculate and update budget
+        
+        // 7. Calculate and update percentages
     };   
     
     return {
