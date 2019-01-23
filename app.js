@@ -78,7 +78,7 @@ var UIController = (function() {
             return {
                 type            : document.querySelector(DOMstrings.inputType).value, // Will be wither inc or exp
                 description     : document.querySelector(DOMstrings.inputDescription).value,
-                value           : document.querySelector(DOMstrings.inputValue).value
+                value           : parseFloat(document.querySelector(DOMstrings.inputValue).value)
             };
         },     
         
@@ -146,6 +146,19 @@ var controller = (function(budgetCtrl, UICtrl) {
             }
         });     
     };    
+
+    var updateBudget = function() {
+        
+        // 1. Calculate the budget
+
+
+        // 2. Return the Budget
+        
+
+        // 3. Display the budget on the UI
+
+
+    };
     
     var ctrlAddItem = function() {
         var input, newItem;
@@ -153,26 +166,28 @@ var controller = (function(budgetCtrl, UICtrl) {
         // 1. Get the field input data
         input = UICtrl.getInput();        
         
-        // 2. Add the item to the budget controller
-        newItem = budgetCtrl.addItem(input.type, input.description, input.value);
-        // Verificate dados object
-        var getInputs	 = UIController.getDOMstrings(); // Pega os campos
-        var viewData	 = budgetController.getData(); // Pega os dados armazenados no objetos pelo UI
-        var getData	     = document.querySelector(getInputs.inputType).value; // pega a string do campo 'add__type'
+        if (input.description !== "" && !isNaN(input.value) && input.value > 0) { // verificar se é válido as informações
 
-        console.log(viewData.allItems[getData]); // view the array into 'exp' or 'inc'
+            // 2. Add the item to the budget controller
+            newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+            // Verificate dados object
+            var getInputs	 = UIController.getDOMstrings(); // Pega os campos
+            var viewData	 = budgetController.getData(); // Pega os dados armazenados no objetos pelo UI
+            var getData	     = document.querySelector(getInputs.inputType).value; // pega a string do campo 'add__type'
 
-        // 3. Add the item to the UI
-        UICtrl.addListItem(newItem, input.type);
-        
-        // 4. Clear de Fields
-        UICtrl.clearFields();
+            console.log(viewData.allItems[getData]); // view the array into 'exp' or 'inc'
 
-        // 5. Clear the fields
+            // 3. Add the item to the UI
+            UICtrl.addListItem(newItem, input.type);
+            
+            // 4. Clear de Fields
+            UICtrl.clearFields();
 
-        // 6. Calculate and update budget
-        
-        // 7. Calculate and update percentages
+            // 5. Calculate and update budget
+            updateBudget();
+
+        }
+
     };   
     
     return {
