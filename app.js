@@ -84,7 +84,6 @@ var budgetController = (function() {
             if (index !== -1) {
                                         // posição // n de elementos
                 data.allItems[type].splice(index, 1);
-
             }
         },
 
