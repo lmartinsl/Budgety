@@ -8,8 +8,28 @@
     box-sizing: border-box;
 }
 
+.footer { visibility: hidden }
+.footer1 {
+    position: absolute;
+    margin-bottom: 0px;
+    right: 0%;
+    transform: translateX(0%);
+    bottom: 0%;
+    text-shadow: 2px 2px 2px black;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    visibility: none;
+}
+
+a:hover { text-decoration: underline }
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
 .welcome {
-    font-family: Open Sans;
+    font-family: 'Viga', sans-serif;
     font-size: 28px;
     color: white;
     text-transform: uppercase;
@@ -18,11 +38,11 @@
     position: absolute;
     padding: 20px;
     display: inline;
-    background-color: #000000da;
+    background-color: #000000ee;
     margin: 5px;
-    border-radius: 8px 8px;
+    border-radius: 5px;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.877);
-    box-shadow: 0px 0px 5px rgba(0, 0, 0);
+    box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.877);
     
 }
 
@@ -33,15 +53,15 @@
 }
 
 .containerMain {
-    background-color: #000000e1;
+    background-color: #000000ee;
     padding-bottom: 1px;
     /* border-radius: 8px 8px; */
-    box-shadow: 0px 0px 10px rgb(0, 0, 0);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.719);
 }
 
 body {
     color: rgb(230, 230, 230);
-    font-family: Open Sans;
+    font-family: 'Viga', sans-serif;
     font-size: 16px;
     position: relative;
     height: 0%;
@@ -50,7 +70,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     border-radius: 8px 8px;
-    background-image: url(back2.png);
+    background-image: url(back1.png);
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -81,6 +101,8 @@ body {
     transform: translate(-50%, -50%);
     color: #fff;
 }
+
+
 
 .budget__title {
     font-size: 18px;
@@ -116,7 +138,7 @@ body {
 .budget__expenses--text {
     float: left;
     font-size: 13px;
-    color: #444;
+    color: rgb(0, 0, 0);
     margin-top: 2px;
 }
 
@@ -148,9 +170,9 @@ body {
 
 /***** FORM *****/
 .add {
-    padding: 14px;
+    padding: 12px;
     border-bottom: 1px solid #e7e7e7;
-    background-color: #f7f7f71a;
+    /* background-color: #f7f7f7; */
 }
 
 .add__container {
@@ -168,6 +190,7 @@ body {
     margin-right: 10px;
     font-weight: 300;
     transition: border 0.3s;
+    border-radius: 5px;
 }
 
 .add__description,
@@ -237,13 +260,13 @@ h2 {
 .expenses__title { color: #FF5049; }
 
 .item {
-    padding: 13px;
+    padding: 10px;
     border-bottom: 1px solid #e7e7e7;
 }
 
 .item:first-child { border-top: 1px solid #e7e7e7; }
 .item:nth-child(even) { 
-    background-color: #000000da;
+    background-color: #fff3;
     color: #e6e6e6;
 }
 
