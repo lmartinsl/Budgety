@@ -166,9 +166,29 @@ var UIController = (function() {
         container           : '.container',
         expensesPercLabel   : '.item__percentage'               // campo de porcentagem da lista de itens
     };        
+
+    var formatNumber = function(num, type) { // Método para formatação (exp and inc inthe budget)
+        var numSplit, int, dec, type;
+
+        num = Math.abs(num);        // remove o sinal do elemento
+        num = num.toFixed(2);       // adiciona os decimais ao final do elemento ( 2.3456 => 2.35 )
+        
+        numSplit = num.split('.');
+
+        int	= numSplit[0];
+        if (int.length > 3) {
+                          //índice  //qtd caract - substr -> retorna a parte de uma string
+            int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3); // input 23105, output 23,105.00
+        }
+
+        dec = numSplit[1];
+
+        return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec; 
+
+    };
     
     return {
-        getInput: function() {
+        getInput: function() {  
             return {
                 type            : document.querySelector(DOMstrings.inputType).value, // Will be wither inc or exp
                 description     : document.querySelector(DOMstrings.inputDescription).value,
@@ -196,7 +216,7 @@ var UIController = (function() {
             // replace - procura por uma string e substitui por uma string pelos dados colocados no método
             newHtml = html.replace('%id%', obj.id);
             newHtml = newHtml.replace('%description%', obj.description);
-            newHtml = newHtml.replace('%value%', obj.value);
+            newHtml = newHtml.replace('%value%', formatNumber(obj.value, type));
 
             // Insert the HTML into the DOM
             // DOM into html with income__container or expenses__container
