@@ -163,7 +163,8 @@ var UIController = (function() {
         incomeLabel	        : '.budget__income--value',         // total receitas
         expensesLabel	    : '.budget__expenses--value',       // total despesas
         percentageLabel	    : '.budget__expenses--percentage',  // porcentagem
-        container           : '.container',                     //
+        container           : '.container',
+        expensesPercLabel   : '.item__percentage'               // campo de porcentagem da lista de itens
     };        
     
     return {
@@ -237,6 +238,26 @@ var UIController = (function() {
             }
         },
 
+        displayPercentages: function(percentages) {
+
+            var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
+
+            var nodeListForEach = function(list, callback) { // método que adiciona a porcentagem pra cada item da lista
+                for (var i = 0; i < list.length; i++) {
+                    callback(list[i], i);
+                }                
+            };
+
+            nodeListForEach(fields, function(current, index) {
+                // Do stuff
+                if (percentages[index] > 0) {
+                    current.textContent = percentages[index] + '%';
+                } else {
+                    current.textContent = '---';
+                }             
+            });
+        },
+
         getDOMstrings: function() { // Expõe o DOMstrings para funções externas 
             return DOMstrings;
         }
@@ -285,7 +306,8 @@ var controller = (function(budgetCtrl, UICtrl) {
         var percentages = budgetCtrl.getPercentages();
 
         // 3. Update the UI with the new percentages
-        console.log(percentages);
+        // console.log(percentages);
+        UICtrl.displayPercentages(percentages);        
 
     };
     
@@ -352,9 +374,9 @@ var controller = (function(budgetCtrl, UICtrl) {
         init: function( ) {
             console.log('Application has started.');
 
-            setTimeout("document.querySelector('.welcome')  .style.visibility = 'hidden';", 3000);
-            setTimeout("document.querySelector('.footer')   .classList.add('footer1');", 3000);
-            setTimeout("document.querySelector('.footer')   .classList.remove('footer')", 3000);
+            setTimeout("document.querySelector('.welcome').style.visibility = 'hidden';", 3000);
+            setTimeout("document.querySelector('.footer').classList.add('footer1');", 3000);
+            setTimeout("document.querySelector('.footer').classList.remove('footer')", 3000);
             
             UICtrl.displayBudget({
                 budget      : 0,

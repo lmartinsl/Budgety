@@ -100,9 +100,8 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     color: #fff;
+    text-shadow: 1px 1px 1px black;
 }
-
-
 
 .budget__title {
     font-size: 18px;
@@ -138,8 +137,9 @@ body {
 .budget__expenses--text {
     float: left;
     font-size: 13px;
-    color: rgb(0, 0, 0);
+    color: white;
     margin-top: 2px;
+    text-shadow: 1px 1px 1px black;
 }
 
 .budget__income--value,
@@ -162,7 +162,6 @@ body {
     text-align: center;
     border-radius: 3px;
 }
-
 
 /**********************************************
 *** BOTTOM PART
