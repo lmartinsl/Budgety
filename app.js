@@ -164,7 +164,8 @@ var UIController = (function() {
         expensesLabel	    : '.budget__expenses--value',       // total despesas
         percentageLabel	    : '.budget__expenses--percentage',  // porcentagem
         container           : '.container',
-        expensesPercLabel   : '.item__percentage'               // campo de porcentagem da lista de itens
+        expensesPercLabel   : '.item__percentage',               // campo de porcentagem da lista de itens
+        dateLabel	        : '.budget__title--month'
     };        
 
     var formatNumber = function(num, type) { // Método para formatação (exp and inc inthe budget)
@@ -279,6 +280,33 @@ var UIController = (function() {
                     current.textContent = '---';
                 }             
             });
+        },
+
+        displayMonth: function() {
+            var now, year, month, months;
+
+            now = new Date();
+            
+            year    = now.getFullYear();
+
+            months  = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'
+            ];
+            month = now.getMonth(); 
+
+            document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ' ' + year;
+
         },
 
         getDOMstrings: function() { // Expõe o DOMstrings para funções externas 
@@ -396,6 +424,8 @@ var controller = (function(budgetCtrl, UICtrl) {
     return {
         init: function( ) {
             console.log('Application has started.');
+
+            UICtrl.displayMonth(); // inicializa a data no UI.
 
             setTimeout("document.querySelector('.welcome').style.visibility = 'hidden';", 3000);
             setTimeout("document.querySelector('.footer').classList.add('footer1');", 3000);
