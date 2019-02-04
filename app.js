@@ -142,7 +142,7 @@ var budgetController = (function() {
         },
 
         getData: function() {
-            return data;
+            return data; // expoe o objeto 'data'
         }
     };
     
@@ -169,7 +169,7 @@ var UIController = (function() {
     };        
 
     var formatNumber = function(num, type) { // Método para formatação (exp and inc inthe budget)
-        var numSplit, int, dec, type;
+        var numSplit, int, dec, type, getDataBudget;
 
         num = Math.abs(num);        // remove o sinal do elemento
         num = num.toFixed(2);       // adiciona os decimais ao final do elemento ( 2.3456 => 2.35 )
@@ -177,6 +177,7 @@ var UIController = (function() {
         numSplit = num.split('.');
 
         int	= numSplit[0];
+
         if (int.length > 3) {
                           //índice  //qtd caract - substr -> retorna a parte de uma string
             int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3); // input 23105, output 23,105.00
@@ -184,8 +185,19 @@ var UIController = (function() {
 
         dec = numSplit[1];
 
-        return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec; 
+        getDataBudget = budgetController.getData();
 
+        if (getDataBudget.budget === 0) {
+            return int + '.' + dec; 
+        } else {
+            return (type === 'exp' ? '-' : '+') + ' ' + int + '.' + dec; 
+        }
+    };
+
+    var nodeListForEach = function(list, callback) { // método que adiciona a porcentagem pra cada item da lista
+        for (var i = 0; i < list.length; i++) {
+            callback(list[i], i);
+        }                
     };
     
     return {
@@ -266,12 +278,6 @@ var UIController = (function() {
 
             var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
 
-            var nodeListForEach = function(list, callback) { // método que adiciona a porcentagem pra cada item da lista
-                for (var i = 0; i < list.length; i++) {
-                    callback(list[i], i);
-                }                
-            };
-
             nodeListForEach(fields, function(current, index) {
                 // Do stuff
                 if (percentages[index] > 0) {
@@ -309,6 +315,22 @@ var UIController = (function() {
 
         },
 
+        changedType: function() {
+            
+            var fields = document.querySelectorAll(
+                DOMstrings.inputType + ',' +
+                DOMstrings.inputDescription + ',' +
+                DOMstrings.inputValue
+            );
+
+            nodeListForEach(fields, function(cur) {
+                cur.classList.toggle('red-focus'); // alterna entre as classes quando a mesma não estiver ativa.
+            });
+
+            document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
+
+        },
+
         getDOMstrings: function() { // Expõe o DOMstrings para funções externas 
             return DOMstrings;
         }
@@ -331,6 +353,8 @@ var controller = (function(budgetCtrl, UICtrl) {
         });   
         
         document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+
+        document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);
 
     };    
 
